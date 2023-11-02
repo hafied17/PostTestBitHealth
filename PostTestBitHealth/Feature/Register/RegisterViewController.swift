@@ -125,6 +125,7 @@ class RegisterViewController: UIViewController {
                         fetchRequest.predicate = predicate
                         
                         do {
+                            showLoading()
                             let result = try context.fetch(fetchRequest)
                             
                             if result.count == 0 {
@@ -140,21 +141,25 @@ class RegisterViewController: UIViewController {
                                     try context.save()
                                     let alert = UIAlertController(title: "Success", message: "Your account has been successfully created!", preferredStyle: .alert)
                                     let alertAction = UIAlertAction(title: "OK", style: .default) { _ in
+                                        self.removeLoading()
                                         self.navigationController?.popViewController(animated: true)
                                     }
                                     alert.addAction(alertAction)
                                     present(alert, animated: true)
                                     
                                 } catch let error as NSError {
+                                    removeLoading()
                                     alertCustom(title: "Error", message: error.localizedDescription)
                                     
                                 }
                                 
                             } else {
+                                removeLoading()
                                 alertCustom(title: "Error", message: "A user with this email already exists!")
                             }
                             
                         } catch let error as NSError {
+                            removeLoading()
                             alertCustom(title: "Error", message: error.localizedDescription)
                         }
                         

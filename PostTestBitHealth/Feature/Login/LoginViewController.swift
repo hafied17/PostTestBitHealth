@@ -95,6 +95,7 @@ class LoginViewController: UIViewController {
                 fetchRequest.predicate = predicate
                 
                 do {
+                    showLoading()
                     let result = try context.fetch(fetchRequest)
                     
                     if result.count == 1 {
@@ -107,13 +108,18 @@ class LoginViewController: UIViewController {
                         }
                         UserDefaults.standard.set(true, forKey: "isLogin")
                         let vc = HomeViewController()
+                        emailTextfield.text = ""
+                        passwordTextfield.text = ""
+                        removeLoading()
                         navigationController?.pushViewController(vc, animated: true)
                         
                     } else {
+                        removeLoading()
                         alertCustom(title: "Error", message: "Make sure your email address or password is correct")
                     }
                     
                 } catch let error as NSError {
+                    removeLoading()
                     alertCustom(title: "Error", message: error.localizedDescription)
                 }
             }
