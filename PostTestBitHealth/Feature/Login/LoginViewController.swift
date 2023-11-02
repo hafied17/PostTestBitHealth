@@ -23,6 +23,7 @@ class LoginViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        navigationController?.isNavigationBarHidden = true
         let isLogin = UserDefaults.standard.bool(forKey: "isLogin")
         if isLogin {
             let vc = HomeViewController()
